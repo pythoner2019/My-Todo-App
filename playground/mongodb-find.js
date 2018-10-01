@@ -9,28 +9,33 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', { useNewUrlParser: true
 	console.log('Connected to Mongo Server..');
 	const db = client.db('TodoApp');
 
-	// db.collection('Todos')
-	// 	.find({
-	// 		_id: new ObjectID('5bb206150709913fe9e5cb30')
-	// 	})
-	// 	.toArray()
-	// 	.then((docs) => {
-	// 		console.log('Todos:: ')
-	// 		console.log(JSON.stringify(docs, undefined, 4))
-	// 	}, (err) => {
-	// 		console.log(`Unable to fetch Error: ${err}`)
-	// 	})
+
+							/*Find by ID*/
+	db.collection('Todos')
+		.find({
+			_id: new ObjectID('5bb206150709913fe9e5cb30')
+		})
+		.toArray()
+		.then((docs) => {
+			console.log('Todos:: ')
+			console.log(JSON.stringify(docs, undefined, 4))
+		}, (err) => {
+			console.log(`Unable to fetch Error: ${err}`)
+		})
 
 
-	// db.collection('Todos')
-	// 	.find()
-	// 	.count()
-	// 	.then((count) => {
-	// 		console.log(`Todos Counts: ${count}`);
-	// 	}, (err) => {
-	// 		console.log(`Unable to fetch Error: ${err}`)
-	// 	})
+				/*Count */
+	db.collection('Todos')
+		.find()
+		.count()
+		.then((count) => {
+			console.log(`Todos Counts: ${count}`);
+		}, (err) => {
+			console.log(`Unable to fetch Error: ${err}`)
+		})
 
+
+					/*Find by name property*/
 	db.collection('Users')
 		.find({name: 'Muhammed Alaa'})
 		.toArray()
