@@ -1,58 +1,33 @@
-const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+
+const {mongoose} = require('./db/mongoose');
+const {Todo} = require('./model/todo');
+const {User} = require('./model/user');
 
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp', { useNewUrlParser: true });
+app.use(bodyParser.json())
 
 
-const Todo = mongoose.model('Todo', {
-	text: {
-		type: String
-	},
-	completed: {
-		type: Boolean
-	},
-	completedAt: {
-		type: Number
-	}
+app.post('/todos', (req, res) => {
+	const todo = new Todo({
+		text: req.body.text
+	});
+
+	todo.save()
+		.then((doc) => {
+			res.send(doc);
+		})
+		.catch((err) => {
+			res.status(400).send(err);
+		})
 })
 
 
-const newTodo = new Todo({
-	text: 'PLay with children'
+app.listen(3000, () => {
+	console.log('started on port 3000');
 })
-
-
-newTodo.save()
-	.then((docs) => {
-		console.log(JSON.stringify(docs, undefined, 4))
-	})
-	.catch((err) => {
-		console.log('unable to fetch', err)
-	})
-
-/*Add another Todo*/
-
-const anotherTodo = new Todo({
-	text: 'drink water and sleep',
-	completed: true,
-	completedAt: 123
-})
-
-anotherTodo.save()
-	.then((docs) => {
-		console.log(JSON.stringify(docs, undefined, 4))
-	})
-	.catch((err) => {
-		console.log('unable to get', err)
-	})
-
-
-
-
-
-
-
 
 
 
